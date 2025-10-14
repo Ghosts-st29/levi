@@ -1,5 +1,5 @@
 // api.js - API functions for MongoDB backend
-const API_BASE_URL = 'http://localhost:5500/api'; // Your backend is on port 5500 // Replace with your Render URL
+const API_BASE_URL = '/api';
 
 class API {
     // Get announcements
