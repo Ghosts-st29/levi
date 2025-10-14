@@ -4,10 +4,10 @@ const User = require('../models/User');
 const router = express.Router();
 
 // Signup route
-// Update the signup route in backend/routes/auth.js
+// Updated Signup route - handles both student and admin
 router.post('/signup', async (req, res) => {
   try {
-    const { firstName, lastName, email, password, phone, course } = req.body;
+    const { firstName, lastName, email, password, phone, course, isAdmin } = req.body;
 
     // Check if user exists
     const existingUser = await User.findOne({ email });
@@ -15,14 +15,21 @@ router.post('/signup', async (req, res) => {
       return res.status(400).json({ success: false, error: 'User already exists' });
     }
 
-    // Create new user with additional fields
+    // Determine role - if isAdmin is true OR email contains 'admin', create admin
+    let role = 'student';
+    if (isAdmin === true || email.includes('admin')) {
+      role = 'admin';
+    }
+
+    // Create new user
     const user = new User({ 
       firstName, 
       lastName, 
       email, 
       password,
       phone,
-      course 
+      course,
+      role
     });
     await user.save();
 
@@ -50,11 +57,10 @@ router.post('/signup', async (req, res) => {
     res.status(500).json({ success: false, error: error.message });
   }
 });
-
-// Login route
+// Login route - Updated to handle roles properly
 router.post('/login', async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { email, password, role } = req.body;
 
     // Find user
     const user = await User.findOne({ email });
@@ -66,6 +72,14 @@ router.post('/login', async (req, res) => {
     const isMatch = await user.comparePassword(password);
     if (!isMatch) {
       return res.status(400).json({ success: false, error: 'Invalid credentials' });
+    }
+
+    // Check if user is trying to login with correct role
+    if (role && user.role !== role) {
+      return res.status(400).json({ 
+        success: false, 
+        error: `Invalid login. Please use ${user.role} login.` 
+      });
     }
 
     // Generate token
@@ -83,6 +97,8 @@ router.post('/login', async (req, res) => {
         firstName: user.firstName,
         lastName: user.lastName,
         email: user.email,
+        phone: user.phone,
+        course: user.course,
         role: user.role
       }
     });
@@ -108,5 +124,7 @@ router.post('/create-admin', async (req, res) => {
     res.status(500).json({ success: false, error: error.message });
   }
 });
+
+
 
 module.exports = router;
