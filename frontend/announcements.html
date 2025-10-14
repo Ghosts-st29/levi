@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IFT | Announcements</title>
+    <link rel="stylesheet" href="css/announcements.css">
+</head>
+
+<body>
+    <nav>
+        <div class="logo">IFT</div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="announcements.html">Announcements</a></li>
+            <li><a href="events.html">Events</a></li>
+            <li><a href="archives.html">Archives</a></li>
+        </ul>
+        <div class="nav-buttons">
+            <button class="btn" onclick="window.location.href='signup.html'">Sign Up</button>
+            <button class="btn" onclick="window.location.href='login.html'">Log In</button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="page-header">
+            <h1>Announcements</h1>
+            <p>Stay updated with the latest news and important updates</p>
+        </div>
+
+        <div class="search-filters">
+            <input type="text" class="search-box" placeholder="Search announcements...">
+            <div class="filter-buttons">
+                <button class="filter-btn active">All</button>
+                <button class="filter-btn">Important</button>
+                <button class="filter-btn">Courses</button>
+                <button class="filter-btn">Maintenance</button>
+            </div>
+        </div>
+
+        <div class="announcements-grid">
+            <div class="announcement-card">
+                <img src="images/first.jpg" alt="New Course Launch" class="announcement-image">
+                <div class="announcement-content">
+                    <div class="announcement-header">
+                        <div>
+                            <h3 class="announcement-title">New Course Launch: Data Science</h3>
+                            <p class="announcement-date">March 15, 2025</p>
+                        </div>
+                        <span class="announcement-category">Courses</span>
+                    </div>
+                    <p class="announcement-description">We're excited to announce our new Data Science specialization
+                        course starting next month. Register now for early bird discounts and get access to exclusive
+                        learning materials.</p>
+                    <div class="announcement-meta">
+                        <span style="color: #888;">Priority: High</span>
+                        <button class="btn">Read More</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="announcement-card">
+                <img src="images/second.jpg" alt="Platform Maintenance" class="announcement-image">
+                <div class="announcement-content">
+                    <div class="announcement-header">
+                        <div>
+                            <h3 class="announcement-title">Platform Maintenance</h3>
+                            <p class="announcement-date">March 10, 2025</p>
+                        </div>
+                        <span class="announcement-category">Maintenance</span>
+                    </div>
+                    <p class="announcement-description">Our platform will undergo scheduled maintenance this weekend to
+                        improve performance and add new features. Services may be temporarily unavailable.</p>
+                    <div class="announcement-meta">
+                        <span style="color: #888;">Priority: Medium</span>
+                        <button class="btn">Read More</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="announcement-card">
+                <img src="images/third.jpg" alt="Scholarship Applications" class="announcement-image">
+                <div class="announcement-content">
+                    <div class="announcement-header">
+                        <div>
+                            <h3 class="announcement-title">Scholarship Applications</h3>
+                            <p class="announcement-date">March 5, 2025</p>
+                        </div>
+                        <span class="announcement-category">Important</span>
+                    </div>
+                    <p class="announcement-description">Applications are now open for our 2025 scholarship program.
+                        Don't miss this opportunity to get financial support for your education. Deadline: April 30.</p>
+                    <div class="announcement-meta">
+                        <span style="color: #888;">Priority: High</span>
+                        <button class="btn">Read More</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Learning Platform. All rights reserved.</p>
+        <p>
+            <a href="#">Privacy Policy</a> |
+            <a href="#">Terms of Use</a> |
+            <a href="#">Support</a>
+        </p>
+    </footer>
+
+    <script src="js/auth.js"></script>
+<script src="js/api.js"></script>
+    <script src="js/navigation.js"></script>
+    <script src="js/announcements.js"></script>
+
+
+</body>
+
+</html>
