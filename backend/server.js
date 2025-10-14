@@ -7,8 +7,11 @@ require('dotenv').config();
 const app = express();
 const PORT = process.env.PORT || 5500;
 
-// Middleware
-app.use(cors());
+// Middleware - CORS setup for frontend-backend communication
+app.use(cors({
+  origin: ['http://localhost:5500', 'http://127.0.0.1:5500'],
+  credentials: true
+}));
 app.use(express.json());
 
 // Serve static files from the frontend directory
