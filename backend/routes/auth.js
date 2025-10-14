@@ -4,9 +4,10 @@ const User = require('../models/User');
 const router = express.Router();
 
 // Signup route
+// Update the signup route in backend/routes/auth.js
 router.post('/signup', async (req, res) => {
   try {
-    const { firstName, lastName, email, password } = req.body;
+    const { firstName, lastName, email, password, phone, course } = req.body;
 
     // Check if user exists
     const existingUser = await User.findOne({ email });
@@ -14,8 +15,15 @@ router.post('/signup', async (req, res) => {
       return res.status(400).json({ success: false, error: 'User already exists' });
     }
 
-    // Create new user
-    const user = new User({ firstName, lastName, email, password });
+    // Create new user with additional fields
+    const user = new User({ 
+      firstName, 
+      lastName, 
+      email, 
+      password,
+      phone,
+      course 
+    });
     await user.save();
 
     // Generate token
@@ -33,6 +41,8 @@ router.post('/signup', async (req, res) => {
         firstName: user.firstName,
         lastName: user.lastName,
         email: user.email,
+        phone: user.phone,
+        course: user.course,
         role: user.role
       }
     });

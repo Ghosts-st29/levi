@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
+const path = require('path');
 require('dotenv').config();
 
 const app = express();
@@ -9,6 +10,9 @@ const PORT = process.env.PORT || 5500;
 // Middleware
 app.use(cors());
 app.use(express.json());
+
+// Serve static files from the frontend directory
+app.use(express.static(path.join(__dirname, '..', 'frontend')));
 
 // MongoDB Atlas Connection
 mongoose.connect(process.env.MONGODB_URI, {
@@ -22,8 +26,8 @@ mongoose.connect(process.env.MONGODB_URI, {
   console.log('❌ MongoDB Atlas connection error:', err);
 });
 
-// Basic route
-app.get('/', (req, res) => {
+// API Routes
+app.get('/api', (req, res) => {
   res.json({ 
     message: 'IFT Backend is running! 🚀',
     version: '1.0.0',
@@ -48,12 +52,15 @@ app.use('/api/auth', authRoutes);
 app.use('/api/announcements', announcementRoutes);
 app.use('/api/events', eventRoutes);
 
-// Add sample data route (optional)
+// Add sample data route
 app.post('/api/sample-data', async (req, res) => {
   try {
-    // This will create sample data - you can run this once
     const Announcement = require('./models/Announcement');
     const Event = require('./models/Event');
+    
+    // Clear existing data
+    await Announcement.deleteMany({});
+    await Event.deleteMany({});
     
     // Sample announcements
     const announcements = await Announcement.create([
@@ -102,8 +109,14 @@ app.post('/api/sample-data', async (req, res) => {
   }
 });
 
+// Serve the main page
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, '..', 'frontend', 'index.html'));
+});
+
 // Start server
 app.listen(PORT, () => {
   console.log(`🎯 Backend server running on http://localhost:${PORT}`);
   console.log(`📊 Using MongoDB Atlas`);
+  console.log(`🌐 Frontend served from: ${path.join(__dirname, '..', 'frontend')}`);
 });
