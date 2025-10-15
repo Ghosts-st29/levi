@@ -1,6 +1,3 @@
-// api.js - API functions for MongoDB backend
-// REMOVED duplicate API_BASE_URL declaration
-
 class API {
     // Get announcements
     async getAnnouncements() {
@@ -28,6 +25,20 @@ class API {
         }
     }
 
+    // Delete announcement (Admin only) - ADD THIS
+    async deleteAnnouncement(announcementId) {
+        try {
+            const response = await fetch(`/api/announcements/${announcementId}`, {
+                method: 'DELETE',
+                headers: auth.getAuthHeaders()
+            });
+            return await response.json();
+        } catch (error) {
+            console.error('Error deleting announcement:', error);
+            return { success: false, error: 'Network error' };
+        }
+    }
+
     // Get events
     async getEvents() {
         try {
@@ -50,6 +61,20 @@ class API {
             return await response.json();
         } catch (error) {
             console.error('Error creating event:', error);
+            return { success: false, error: 'Network error' };
+        }
+    }
+
+    // Delete event (Admin only) - ADD THIS
+    async deleteEvent(eventId) {
+        try {
+            const response = await fetch(`/api/events/${eventId}`, {
+                method: 'DELETE',
+                headers: auth.getAuthHeaders()
+            });
+            return await response.json();
+        } catch (error) {
+            console.error('Error deleting event:', error);
             return { success: false, error: 'Network error' };
         }
     }
