@@ -42,7 +42,7 @@ class Auth {
         }
     }
 
-    // Student Login
+    // Student Login - ADD THIS FUNCTION
     async studentLogin(email, password) {
         try {
             const response = await fetch(`${API_BASE_URL}/auth/login`, {
@@ -73,7 +73,7 @@ class Auth {
         }
     }
 
-    // Admin Login
+    // Admin Login - ADD THIS FUNCTION
     async adminLogin(email, password) {
         try {
             const response = await fetch(`${API_BASE_URL}/auth/login`, {
