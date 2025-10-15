@@ -370,7 +370,7 @@
         const isAdmin = formData.email.toLowerCase().includes('admin');
 
         try {
-            const response = await fetch('http://localhost:5500/api/auth/signup', {
+            const response = await fetch('/api/auth/signup', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

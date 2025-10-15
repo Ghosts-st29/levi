@@ -1,140 +1,58 @@
-// auth.js - Updated with proper role separation
-const API_BASE_URL = '/api';
+// api.js - API functions for MongoDB backend
+// REMOVED duplicate API_BASE_URL declaration
 
-class Auth {
-    constructor() {
-        this.token = localStorage.getItem('token');
-        this.user = JSON.parse(localStorage.getItem('user'));
+class API {
+    // Get announcements
+    async getAnnouncements() {
+        try {
+            const response = await fetch('/api/announcements');
+            return await response.json();
+        } catch (error) {
+            console.error('Error fetching announcements:', error);
+            return [];
+        }
     }
 
-    // Student Signup
-    async studentSignUp(email, password, userData) {
+    // Create announcement (Admin only)
+    async createAnnouncement(announcementData) {
         try {
-            const response = await fetch(`${API_BASE_URL}/auth/signup`, {
+            const response = await fetch('/api/announcements', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    email,
-                    password,
-                    firstName: userData.firstName,
-                    lastName: userData.lastName,
-                    phone: userData.phone,
-                    course: userData.course,
-                    role: 'student' // Explicitly set role
-                })
+                headers: auth.getAuthHeaders(),
+                body: JSON.stringify(announcementData)
             });
-
-            const data = await response.json();
-
-            if (data.success) {
-                this.token = data.token;
-                this.user = data.user;
-                localStorage.setItem('token', this.token);
-                localStorage.setItem('user', JSON.stringify(this.user));
-                return { success: true };
-            } else {
-                return { success: false, error: data.error };
-            }
+            return await response.json();
         } catch (error) {
+            console.error('Error creating announcement:', error);
             return { success: false, error: 'Network error' };
         }
     }
 
-    // Student Login - ADD THIS FUNCTION
-    async studentLogin(email, password) {
+    // Get events
+    async getEvents() {
         try {
-            const response = await fetch(`${API_BASE_URL}/auth/login`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ 
-                    email, 
-                    password,
-                    role: 'student' // Specify role for login
-                })
-            });
-
-            const data = await response.json();
-
-            if (data.success) {
-                this.token = data.token;
-                this.user = data.user;
-                localStorage.setItem('token', this.token);
-                localStorage.setItem('user', JSON.stringify(this.user));
-                return { success: true };
-            } else {
-                return { success: false, error: data.error };
-            }
+            const response = await fetch('/api/events');
+            return await response.json();
         } catch (error) {
-            return { success: false, error: 'Network error' };
+            console.error('Error fetching events:', error);
+            return [];
         }
     }
 
-    // Admin Login - ADD THIS FUNCTION
-    async adminLogin(email, password) {
+    // Create event (Admin only)
+    async createEvent(eventData) {
         try {
-            const response = await fetch(`${API_BASE_URL}/auth/login`, {
+            const response = await fetch('/api/events', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ 
-                    email, 
-                    password,
-                    role: 'admin' // Specify role for login
-                })
+                headers: auth.getAuthHeaders(),
+                body: JSON.stringify(eventData)
             });
-
-            const data = await response.json();
-
-            if (data.success) {
-                this.token = data.token;
-                this.user = data.user;
-                localStorage.setItem('token', this.token);
-                localStorage.setItem('user', JSON.stringify(this.user));
-                return { success: true };
-            } else {
-                return { success: false, error: data.error };
-            }
+            return await response.json();
         } catch (error) {
+            console.error('Error creating event:', error);
             return { success: false, error: 'Network error' };
         }
-    }
-
-    // Check if user is authenticated
-    isAuthenticated() {
-        return !!this.token;
-    }
-
-    // Check if user is admin
-    isAdmin() {
-        return this.user && this.user.role === 'admin';
-    }
-
-    // Check if user is student
-    isStudent() {
-        return this.user && this.user.role === 'student';
-    }
-
-    // Logout
-    logout() {
-        this.token = null;
-        this.user = null;
-        localStorage.removeItem('token');
-        localStorage.removeItem('user');
-        window.location.href = 'index.html';
-    }
-
-    // Get auth headers
-    getAuthHeaders() {
-        return {
-            'Authorization': `Bearer ${this.token}`,
-            'Content-Type': 'application/json'
-        };
     }
 }
 
-const auth = new Auth();
+const api = new API();
