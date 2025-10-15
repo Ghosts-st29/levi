@@ -1,58 +1,105 @@
-// api.js - API functions for MongoDB backend
-// REMOVED duplicate API_BASE_URL declaration
+// auth.js - Authentication functions
+const API_BASE_URL = '/api';
 
-class API {
-    // Get announcements
-    async getAnnouncements() {
-        try {
-            const response = await fetch('/api/announcements');
-            return await response.json();
-        } catch (error) {
-            console.error('Error fetching announcements:', error);
-            return [];
-        }
+class Auth {
+    constructor() {
+        this.token = localStorage.getItem('token');
+        this.user = JSON.parse(localStorage.getItem('user'));
     }
 
-    // Create announcement (Admin only)
-    async createAnnouncement(announcementData) {
+    // Student Login
+    async studentLogin(email, password) {
         try {
-            const response = await fetch('/api/announcements', {
+            const response = await fetch('/api/auth/login', {
                 method: 'POST',
-                headers: auth.getAuthHeaders(),
-                body: JSON.stringify(announcementData)
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ 
+                    email, 
+                    password,
+                    role: 'student'
+                })
             });
-            return await response.json();
+
+            const data = await response.json();
+
+            if (data.success) {
+                this.token = data.token;
+                this.user = data.user;
+                localStorage.setItem('token', this.token);
+                localStorage.setItem('user', JSON.stringify(this.user));
+                return { success: true };
+            } else {
+                return { success: false, error: data.error };
+            }
         } catch (error) {
-            console.error('Error creating announcement:', error);
             return { success: false, error: 'Network error' };
         }
     }
 
-    // Get events
-    async getEvents() {
+    // Admin Login
+    async adminLogin(email, password) {
         try {
-            const response = await fetch('/api/events');
-            return await response.json();
+            const response = await fetch('/api/auth/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ 
+                    email, 
+                    password,
+                    role: 'admin'
+                })
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                this.token = data.token;
+                this.user = data.user;
+                localStorage.setItem('token', this.token);
+                localStorage.setItem('user', JSON.stringify(this.user));
+                return { success: true };
+            } else {
+                return { success: false, error: data.error };
+            }
         } catch (error) {
-            console.error('Error fetching events:', error);
-            return [];
+            return { success: false, error: 'Network error' };
         }
     }
 
-    // Create event (Admin only)
-    async createEvent(eventData) {
-        try {
-            const response = await fetch('/api/events', {
-                method: 'POST',
-                headers: auth.getAuthHeaders(),
-                body: JSON.stringify(eventData)
-            });
-            return await response.json();
-        } catch (error) {
-            console.error('Error creating event:', error);
-            return { success: false, error: 'Network error' };
-        }
+    // Check if user is authenticated
+    isAuthenticated() {
+        return !!this.token;
+    }
+
+    // Check if user is admin
+    isAdmin() {
+        return this.user && this.user.role === 'admin';
+    }
+
+    // Check if user is student
+    isStudent() {
+        return this.user && this.user.role === 'student';
+    }
+
+    // Logout
+    logout() {
+        this.token = null;
+        this.user = null;
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        window.location.href = 'index.html';
+    }
+
+    // Get auth headers
+    getAuthHeaders() {
+        return {
+            'Authorization': `Bearer ${this.token}`,
+            'Content-Type': 'application/json'
+        };
     }
 }
 
-const api = new API();
+const auth = new Auth();

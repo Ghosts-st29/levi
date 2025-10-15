@@ -350,49 +350,6 @@
         });
     </script>
 
-    <script>
-// Temporary auth object until file loads
-const auth = {
-    async studentLogin(email, password) {
-        try {
-            const response = await fetch('/api/auth/login', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({email, password, role: 'student'})
-            });
-            const data = await response.json();
-            if (data.success) {
-                localStorage.setItem('token', data.token);
-                localStorage.setItem('user', JSON.stringify(data.user));
-                return {success: true};
-            }
-            return {success: false, error: data.error};
-        } catch (error) {
-            return {success: false, error: 'Network error'};
-        }
-    },
-    
-    async adminLogin(email, password) {
-        try {
-            const response = await fetch('/api/auth/login', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({email, password, role: 'admin'})
-            });
-            const data = await response.json();
-            if (data.success) {
-                localStorage.setItem('token', data.token);
-                localStorage.setItem('user', JSON.stringify(data.user));
-                return {success: true};
-            }
-            return {success: false, error: data.error};
-        } catch (error) {
-            return {success: false, error: 'Network error'};
-        }
-    }
-};
-</script>
-
     <!-- Add these -->
     <script src="js/auth.js"></script>
     <script src="js/api.js"></script>
