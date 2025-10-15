@@ -53,6 +53,21 @@
             background: #ffcc00;
         }
 
+        .nav-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .nav-buttons .btn {
+            width: auto;
+            padding: 0.5rem 1rem;
+            background: #ffcc00;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
         /* Main Content */
         .container {
             max-width: 600px;
@@ -166,6 +181,34 @@
             text-decoration: underline;
         }
 
+        /* Admin Section */
+        .admin-section {
+            margin-top: 2rem;
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            display: none;
+        }
+
+        .admin-trigger {
+            text-align: center;
+            margin-top: 1rem;
+        }
+
+        .admin-trigger a {
+            color: #666;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .admin-info {
+            text-align: center;
+            margin-top: 2rem;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 5px;
+        }
+
         /* Footer */
         footer {
             background: #222;
@@ -202,6 +245,10 @@
             <li><a href="events.html">Events</a></li>
             <li><a href="archives.html">Archives</a></li>
         </ul>
+        <div class="nav-buttons">
+            <button class="btn" onclick="window.location.href='signup.html'">Sign Up</button>
+            <button class="btn" onclick="window.location.href='login.html'">Log In</button>
+        </div>
     </nav>
 
     <div class="container">
@@ -267,60 +314,55 @@
                 </div>
             </form>
         </div>
+
+        <!-- Admin Registration Trigger -->
+        <div class="admin-trigger">
+            <a href="#" onclick="showAdminRegister()">🔐 Admin Registration</a>
+        </div>
+
+        <!-- Admin Registration Section -->
+        <div id="adminRegisterSection" class="admin-section">
+            <h3 style="text-align: center; color: #333; margin-bottom: 1rem;">🔐 Admin Registration</h3>
+            
+            <form id="adminSignupForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="adminFirstName">First Name</label>
+                        <input type="text" id="adminFirstName" placeholder="Admin first name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="adminLastName">Last Name</label>
+                        <input type="text" id="adminLastName" placeholder="Admin last name" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="adminEmail">Admin Email</label>
+                    <input type="email" id="adminEmail" placeholder="Admin email address" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="adminPassword">Admin Password</label>
+                    <input type="password" id="adminPassword" placeholder="Create admin password" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="adminConfirmPassword">Confirm Password</label>
+                    <input type="password" id="adminConfirmPassword" placeholder="Confirm admin password" required>
+                </div>
+
+                <button type="submit" class="btn" style="background: #dc3545;">Create Admin Account</button>
+                <button type="button" class="btn" onclick="hideAdminRegister()" style="background: #6c757d; margin-top: 0.5rem;">Cancel</button>
+            </form>
+        </div>
+
+        <div class="admin-info">
+            <p style="color: #666; margin-bottom: 0.5rem;">Admin Registration</p>
+            <p style="font-size: 0.9rem; color: #888;">
+                To create admin account: Use email containing "admin" (e.g., "yourname@admin.com")
+            </p>
+        </div>
     </div>
-
-
-    <!-- Admin Registration Section -->
-<div id="adminRegisterSection" style="display: none; margin-top: 2rem; background: white; padding: 2rem; border-radius: 10px;">
-    <h3 style="text-align: center; color: #333; margin-bottom: 1rem;">🔐 Admin Registration</h3>
-    
-    <form id="adminSignupForm">
-        <div class="form-row">
-            <div class="form-group">
-                <label for="adminFirstName">First Name</label>
-                <input type="text" id="adminFirstName" placeholder="Admin first name" required>
-            </div>
-            <div class="form-group">
-                <label for="adminLastName">Last Name</label>
-                <input type="text" id="adminLastName" placeholder="Admin last name" required>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label for="adminEmail">Admin Email</label>
-            <input type="email" id="adminEmail" placeholder="Admin email address" required>
-        </div>
-
-        <div class="form-group">
-            <label for="adminPassword">Admin Password</label>
-            <input type="password" id="adminPassword" placeholder="Create admin password" required>
-        </div>
-
-        <div class="form-group">
-            <label for="adminConfirmPassword">Confirm Password</label>
-            <input type="password" id="adminConfirmPassword" placeholder="Confirm admin password" required>
-        </div>
-
-        <button type="submit" class="btn" style="background: #dc3545;">Create Admin Account</button>
-        <button type="button" class="btn" onclick="hideAdminRegister()" style="background: #6c757d; margin-top: 0.5rem;">Cancel</button>
-    </form>
-</div>
-
-<!-- Admin Registration Trigger -->
-<div style="text-align: center; margin-top: 1rem;">
-    <a href="#" onclick="showAdminRegister()" style="color: #666; text-decoration: none; font-size: 0.9rem;">
-        🔐 Admin Registration
-    </a>
-</div>
-
-<div style="text-align: center; margin-top: 2rem; padding: 1rem; background: #f8f9fa; border-radius: 5px;">
-    <p style="color: #666; margin-bottom: 0.5rem;">Admin Registration</p>
-    <p style="font-size: 0.9rem; color: #888;">
-        To create admin account: Use email containing "admin" (e.g., "yourname@admin.com")
-    </p>
-</div>
-
-
 
     <footer>
         <p>&copy; 2025 Learning Platform. All rights reserved.</p>
@@ -331,85 +373,132 @@
         </p>
     </footer>
 
-
-    
-
     <script>
-    // Updated Student Signup Form - now handles admin detection
-    document.getElementById('studentSignupForm').addEventListener('submit', async function (e) {
-        e.preventDefault();
-
-        const formData = {
-            firstName: document.getElementById('firstName').value,
-            lastName: document.getElementById('lastName').value,
-            email: document.getElementById('email').value,
-            phone: document.getElementById('phone').value,
-            course: document.getElementById('course').value
-        };
-
-        const password = document.getElementById('password').value;
-        const confirmPassword = document.getElementById('confirmPassword').value;
-
-        // Validation
-        if (password !== confirmPassword) {
-            alert('Passwords do not match!');
-            return;
+        // Admin registration show/hide functions
+        function showAdminRegister() {
+            document.getElementById('adminRegisterSection').style.display = 'block';
+            document.getElementById('adminRegisterSection').scrollIntoView({ behavior: 'smooth' });
         }
 
-        if (password.length < 6) {
-            alert('Password must be at least 6 characters long!');
-            return;
+        function hideAdminRegister() {
+            document.getElementById('adminRegisterSection').style.display = 'none';
         }
 
-        // Show loading state
-        const submitBtn = this.querySelector('.btn');
-        submitBtn.textContent = 'Creating Account...';
-        submitBtn.disabled = true;
+        // Admin registration form handler
+        document.getElementById('adminSignupForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
 
-        // Detect if admin registration (email contains 'admin')
-        const isAdmin = formData.email.toLowerCase().includes('admin');
+            const formData = {
+                firstName: document.getElementById('adminFirstName').value,
+                lastName: document.getElementById('adminLastName').value,
+                email: document.getElementById('adminEmail').value,
+                password: document.getElementById('adminPassword').value,
+                confirmPassword: document.getElementById('adminConfirmPassword').value
+            };
 
-        try {
-            const response = await fetch('/api/auth/signup', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    ...formData,
-                    password: password,
-                    isAdmin: isAdmin
-                })
-            });
+            if (formData.password !== formData.confirmPassword) {
+                alert('Passwords do not match!');
+                return;
+            }
 
-            const result = await response.json();
+            if (formData.password.length < 6) {
+                alert('Password must be at least 6 characters long!');
+                return;
+            }
 
-            if (result.success) {
-                const role = result.user.role;
-                alert(`Account created successfully! You are registered as ${role}.`);
-                window.location.href = 'login.html';
-            } else {
-                alert('Error: ' + result.error);
+            const submitBtn = this.querySelector('.btn');
+            submitBtn.textContent = 'Creating Admin Account...';
+            submitBtn.disabled = true;
+
+            try {
+                const response = await fetch('/api/auth/signup', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        firstName: formData.firstName,
+                        lastName: formData.lastName,
+                        email: formData.email,
+                        password: formData.password,
+                        role: 'admin',
+                        isAdmin: true
+                    })
+                });
+
+                const result = await response.json();
+                if (result.success) {
+                    alert('Admin account created successfully!');
+                    window.location.href = 'login.html';
+                } else {
+                    alert('Error: ' + result.error);
+                    submitBtn.textContent = 'Create Admin Account';
+                    submitBtn.disabled = false;
+                }
+            } catch (error) {
+                alert('Network error. Please try again.');
+                submitBtn.textContent = 'Create Admin Account';
+                submitBtn.disabled = false;
+            }
+        });
+
+        // Student Signup Form
+        document.getElementById('studentSignupForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            const formData = {
+                firstName: document.getElementById('firstName').value,
+                lastName: document.getElementById('lastName').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                course: document.getElementById('course').value
+            };
+
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+
+            if (password !== confirmPassword) {
+                alert('Passwords do not match!');
+                return;
+            }
+
+            if (password.length < 6) {
+                alert('Password must be at least 6 characters long!');
+                return;
+            }
+
+            const submitBtn = this.querySelector('.btn');
+            submitBtn.textContent = 'Creating Account...';
+            submitBtn.disabled = true;
+
+            try {
+                const response = await fetch('/api/auth/signup', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        ...formData,
+                        password: password
+                    })
+                });
+
+                const result = await response.json();
+                if (result.success) {
+                    const role = result.user.role;
+                    alert(`Account created successfully! You are registered as ${role}.`);
+                    window.location.href = 'login.html';
+                } else {
+                    alert('Error: ' + result.error);
+                    submitBtn.textContent = 'Create Student Account';
+                    submitBtn.disabled = false;
+                }
+            } catch (error) {
+                alert('Network error. Please try again.');
                 submitBtn.textContent = 'Create Student Account';
                 submitBtn.disabled = false;
             }
-        } catch (error) {
-            alert('Network error. Please make sure the backend server is running.');
-            submitBtn.textContent = 'Create Student Account';
-            submitBtn.disabled = false;
-        }
-    });
-</script>
-
-
+        });
+    </script>
 
     <script src="js/auth.js"></script>
     <script src="js/api.js"></script>
-
-
-
-
-
 </body>
 
 </html>
